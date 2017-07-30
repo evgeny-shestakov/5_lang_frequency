@@ -1,6 +1,7 @@
 # uses
 
 - sys
+- collections
 
 # Frequency Analysis of Words
 

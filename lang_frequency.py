@@ -1,4 +1,5 @@
 import sys
+import collections
 
 
 def load_file(filepath):
@@ -15,17 +16,12 @@ def remove_extra_characters(text):
 
 
 def get_most_frequent_words(text, max_values = 10):
-
-    words_count = dict()
+    words_count = collections.Counter()
     for word in [remove_extra_characters(word).lower() 
                 for word in text.split(' ')]:
-        if word in words_count:
             words_count[word] += 1
-        else:
-            words_count[word] = 0
-    
-    return sorted(words_count.items(), 
-                key=lambda x:x[1], reverse = True)[:max_values]
+        
+    return words_count.most_common()[:max_values]    
 
 
 if __name__ == '__main__':
