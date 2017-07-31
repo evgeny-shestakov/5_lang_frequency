@@ -13,8 +13,8 @@ def load_file(filepath):
 
 
 def get_most_frequent_words(text, max_values = 10):
-    word_list = re.sub('[^\w]', ' ',  text).lower().split()
-    return collections.Counter(word_list).most_common(max_values) 
+    words = re.sub('[^\w]', ' ',  text).lower().split()
+    return collections.Counter(words).most_common(max_values) 
 
 
 if __name__ == '__main__':
