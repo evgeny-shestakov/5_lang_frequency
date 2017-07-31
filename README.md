@@ -2,6 +2,7 @@
 
 - sys
 - collections
+- re
 
 # Frequency Analysis of Words
 
@@ -9,9 +10,6 @@ Count the most repetitive words. First param is filepath (with data), and second
 it is max results (10 by default)
 
 Module is consists of:
-
-- remove_extra_characters(text)
-delete some special characters like: ",", "." an others
 
 - get_most_frequent_words(text, max_values = 10)
 return sorted list of typles: (word, frequency)

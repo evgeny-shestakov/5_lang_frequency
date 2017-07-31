@@ -1,39 +1,36 @@
 import sys
 import collections
+import re
 
 
 def load_file(filepath):
-    with open(filepath, 'r') as file_handler:              
-        return file_handler.read()
-
-
-def remove_extra_characters(text):
-    replace_words = [('\n',''), ('"',''), (',',''),
-        ('.', ''), ('?', '')]
-    for find, replace in replace_words:
-        text = text.replace(find, replace)
-    return text
+    try:
+        with open(filepath, 'r') as file_handler:              
+            return file_handler.read()
+    except FileNotFoundError:
+        print('file {0} not found'.format(filepath))
+        sys.exit(1)       
 
 
 def get_most_frequent_words(text, max_values = 10):
-    words_count = collections.Counter()
-    for word in [remove_extra_characters(word).lower() 
-                for word in text.split(' ')]:
-            words_count[word] += 1
-        
-    return words_count.most_common()[:max_values]    
+    word_list = re.sub('[^\w]', ' ',  text).lower().split()
+    return collections.Counter(word_list).most_common(max_values) 
 
 
 if __name__ == '__main__':
-    try:
+    if len(sys.argv) > 1:
         file_content = load_file(sys.argv[1])
-    except IndexError:
-        print('warning: please add text file as argument: ' + 
-            './python lang_frequency.py data.txt')
-    except FileNotFoundError:
-        print('file: {0} not found'.format(sys.argv[1]))        
-    else:
-        max_values = 10 if len(sys.argv) <= 2 else int(sys.argv[2])  
+        try:
+            max_values = 10 if len(sys.argv) <= 2 else int(sys.argv[2])
+        except ValueError:
+            print('wrong max values format, please use float')
+            sys.exit(1)
         for word, repeated in get_most_frequent_words(file_content,
                                                       max_values):
             print('word "{0}" repeated {1} times\n'.format(word, repeated))
+        sys.exit(0)
+    else:
+        print('error: please add text file as argument: ' + 
+            './python lang_frequency.py data.txt [max_values]')
+        sys.exit(1)          
+        
